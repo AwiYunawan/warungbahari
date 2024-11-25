@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { Alert } from 'react-native';
+import { ImagePlaceHolder } from '../../../assets';
 
 export default function Transaksi({navigation}) {
   const [menuItems, setMenuItems] = useState([
@@ -87,6 +88,7 @@ export default function Transaksi({navigation}) {
   const resetTransaction = () => {
     const resetItems = menuItems.map(item => ({...item, quantity: 0}));
     setMenuItems(resetItems);
+    filterByCategory('Semua');
     setFilteredItems(resetItems);
   };
 
@@ -137,7 +139,7 @@ export default function Transaksi({navigation}) {
           <View style={styles.menuItem}>
             <Image
               style={styles.image}
-              source={require('./placeholder.png')} // Gambar kosong (placeholder)
+              source={ImagePlaceHolder} // Gambar kosong (placeholder)
             />
             <View style={styles.menuDetails}>
               <Text style={styles.menuName}>{item.name}</Text>

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {useState} from 'react';
 import {Alert} from 'react-native';
+import { ImagePlaceHolder } from '../../../assets';
 
 export default function PaymentMethod({route, navigation}) {
   const {selectedItems = [], totalPrice = 0} = route.params || {};
@@ -42,7 +43,7 @@ export default function PaymentMethod({route, navigation}) {
           <View style={styles.menuItem}>
             <Image
               style={styles.image}
-              source={require('./placeholder.png')} // Gambar kosong (placeholder)
+              source={ImagePlaceHolder} // Gambar kosong (placeholder)
             />
             <View style={styles.menuDetails}>
               <Text style={styles.menuName}>{item.name}</Text>

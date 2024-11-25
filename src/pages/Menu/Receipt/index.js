@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image , ScrollView} from 'react-native';
+import { ImageCheckmark } from '../../../assets';
 
 export default function Receipt({ route, navigation }) {
   // Data yang dikirim dari halaman sebelumnya
@@ -37,7 +38,7 @@ export default function Receipt({ route, navigation }) {
 
         {/* Logo Centang */}
         <Image
-          source={require('./checkmark.png')} // Pastikan file checkmark.png ada
+          source={ImageCheckmark} // Pastikan file checkmark.png ada
           style={styles.checkmark}
         />
 
@@ -68,7 +69,7 @@ export default function Receipt({ route, navigation }) {
       {/* Tombol Transaksi Baru */}
       <TouchableOpacity
         style={styles.newTransactionButton}
-        onPress={() => navigation.navigate('Transaksi')}>
+        onPress={() => navigation.navigate('Drawers')}>
         <Text style={styles.newTransactionText}>Transaksi Baru</Text>
       </TouchableOpacity>
     </ScrollView>
