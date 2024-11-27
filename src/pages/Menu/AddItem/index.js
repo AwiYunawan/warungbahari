@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,9 +9,10 @@ import {
   Image,
 } from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import {Picker} from '@react-native-picker/picker';
 
-export default function AddItem({ navigation, route }) {
-  const { addItem } = route.params;
+export default function AddItem({navigation, route}) {
+  const {addItem} = route.params;
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -71,44 +72,48 @@ export default function AddItem({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tambah Menu Baru</Text>
-
       {/* Input Nama */}
+      <Text style={styles.label}>Nama Menu</Text>
       <TextInput
         style={styles.input}
-        placeholder="Nama Menu"
         value={name}
         onChangeText={setName}
+        placeholder="Masukkan nama menu"
       />
 
-      {/* Input Harga */}
+      <Text style={styles.label}>Harga</Text>
       <TextInput
         style={styles.input}
-        placeholder="Harga Menu"
         value={price}
         onChangeText={setPrice}
+        placeholder="Masukkan harga"
         keyboardType="numeric"
       />
 
       {/* Input Kategori */}
+      <Text style={styles.label}>Kategori</Text>
       <TextInput
         style={styles.input}
-        placeholder="Kategori (Makanan, Minuman, Lain-lain)"
         value={category}
         onChangeText={setCategory}
+        placeholder="Masukkan kategori"
       />
 
       {/* Upload Gambar */}
       <View style={styles.imageContainer}>
-        <TouchableOpacity style={styles.imageButton} onPress={pickImageFromGallery}>
+        <TouchableOpacity
+          style={styles.imageButton}
+          onPress={pickImageFromGallery}>
           <Text style={styles.imageButtonText}>Pilih Gambar dari Galeri</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.imageButton} onPress={pickImageFromCamera}>
+        <TouchableOpacity
+          style={styles.imageButton}
+          onPress={pickImageFromCamera}>
           <Text style={styles.imageButtonText}>Ambil Gambar dari Kamera</Text>
         </TouchableOpacity>
       </View>
 
-      {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
+      {image && <Image source={{uri: image}} style={styles.imagePreview} />}
 
       {/* Tombol Simpan */}
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
@@ -124,6 +129,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 16,
   },
+  label: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 8,
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -134,7 +144,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
-    padding: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 16,
     marginBottom: 16,
   },
   imageContainer: {
@@ -166,7 +178,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: '#fff',
+    fontSize: 20,
     fontWeight: 'bold',
-    fontSize: 16,
   },
 });

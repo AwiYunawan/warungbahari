@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,45 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  Image,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
-export default function EditItem({ route, navigation }) {
-  const { item, updateItem } = route.params;
+export default function EditItem({route, navigation}) {
+  const {item, updateItem} = route.params;
   const [name, setName] = useState(item.name);
   const [price, setPrice] = useState(item.price.toString());
   const [category, setCategory] = useState(item.category);
+  const [image, setImage] = useState(null);
+
+  const pickImageFromGallery = () => {
+    ImageCropPicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+    })
+      .then(image => {
+        setImage(image.path);
+      })
+      .catch(error => {
+        console.log('Error picking image: ', error.message);
+      });
+  };
+
+  const pickImageFromCamera = () => {
+    ImageCropPicker.openCamera({
+      width: 300,
+      height: 300,
+      cropping: true,
+    })
+      .then(image => {
+        setImage(image.path);
+      })
+      .catch(error => {
+        console.log('Error taking photo: ', error.message);
+      });
+  };
 
   const handleSave = () => {
     if (!name.trim() || !price.trim() || !category.trim()) {
@@ -63,6 +95,21 @@ export default function EditItem({ route, navigation }) {
         placeholder="Masukkan kategori"
       />
 
+      <View style={styles.imageContainer}>
+        <TouchableOpacity
+          style={styles.imageButton}
+          onPress={pickImageFromGallery}>
+          <Text style={styles.imageButtonText}>Pilih Gambar dari Galeri</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.imageButton}
+          onPress={pickImageFromCamera}>
+          <Text style={styles.imageButtonText}>Ambil Gambar dari Kamera</Text>
+        </TouchableOpacity>
+      </View>
+
+      {image && <Image source={{uri: image}} style={styles.imagePreview} />}
+
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Simpan</Text>
       </TouchableOpacity>
@@ -81,6 +128,17 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 8,
   },
+  imageButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  imageButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
@@ -91,8 +149,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   saveButton: {
-    backgroundColor: '#4CAF50',
-    padding: 16,
+    backgroundColor: 'blue',
+    padding: 15,
     borderRadius: 8,
     alignItems: 'center',
   },

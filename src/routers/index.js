@@ -94,7 +94,7 @@ const Routers = () => {
       <Stack.Screen
         name="AddItem"
         component={AddItem}
-        options={{headerShown: true, title: 'Tambah Item'}}
+        options={{headerShown: true, title: 'Tambah Menu Baru'}}
       />
     </Stack.Navigator>
   );
