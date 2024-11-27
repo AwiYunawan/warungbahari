@@ -1,16 +1,34 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image , ScrollView} from 'react-native';
-import { ImageCheckmark } from '../../../assets';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
+import {ImageCheckmark} from '../../../assets';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Receipt({ route, navigation }) {
+export default function Receipt({route, navigation}) {
+  // Tambahkan fungsi untuk menyimpan data transaksi
+  const saveTransaction = async transaction => {
+    try {
+      const existingTransactions =
+        JSON.parse(await AsyncStorage.getItem('transactions')) || [];
+      const updatedTransactions = [...existingTransactions, transaction];
+      await AsyncStorage.setItem(
+        'transactions',
+        JSON.stringify(updatedTransactions),
+      );
+    } catch (e) {
+      console.error('Error saving transaction:', e);
+    }
+  };
+
   // Data yang dikirim dari halaman sebelumnya
-  const {
-    totalPrice,
-    change,
-    paymentMethod,
-    paidAmount,
-    items,
-  } = route.params || {};
+  const {totalPrice, change, paymentMethod, paidAmount, items} =
+    route.params || {};
 
   // Mendapatkan waktu saat ini
   const currentDateTime = new Date();
@@ -24,8 +42,6 @@ export default function Receipt({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      
-
       <View style={styles.content}>
         {/* Waktu Transaksi */}
         <Text style={styles.dateTime}>
@@ -51,11 +67,15 @@ export default function Receipt({ route, navigation }) {
 
         {/* Jumlah Dibayar */}
         <Text style={styles.sectionTitle}>Jumlah Dibayar</Text>
-        <Text style={styles.amount}>Rp {paidAmount.toLocaleString('id-ID')}</Text>
+        <Text style={styles.amount}>
+          Rp {paidAmount.toLocaleString('id-ID')}
+        </Text>
 
         {/* Total Harga */}
         <Text style={styles.sectionTitle}>Total Harga</Text>
-        <Text style={styles.amount}>Rp {totalPrice.toLocaleString('id-ID')}</Text>
+        <Text style={styles.amount}>
+          Rp {totalPrice.toLocaleString('id-ID')}
+        </Text>
 
         {/* Rincian Item */}
         <Text style={styles.sectionTitle}>Rincian Pesanan:</Text>
@@ -69,7 +89,17 @@ export default function Receipt({ route, navigation }) {
       {/* Tombol Transaksi Baru */}
       <TouchableOpacity
         style={styles.newTransactionButton}
-        onPress={() => navigation.navigate('Drawers')}>
+        onPress={async () => {
+          await saveTransaction({
+            date: new Date(),
+            paymentMethod,
+            totalPrice,
+            paidAmount,
+            change,
+            items,
+          });
+          navigation.navigate('Drawers');
+        }}>
         <Text style={styles.newTransactionText}>Transaksi Baru</Text>
       </TouchableOpacity>
     </ScrollView>

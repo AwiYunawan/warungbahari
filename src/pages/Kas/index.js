@@ -104,7 +104,7 @@ const Kas = (navigation) => {
       <View style={styles.ViewContainer}>
                 <View style={{flex: 1}}>
                   <Text style={{fontSize: 15}}>{tgl}</Text>
-                  <Text>Kas Toko -> Kas Rekening</Text>
+                  <Text>Kas Toko → Kas Rekening</Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                   <Text style={styles.ViewRiwayatText}>Rp {kas.toLocaleString('id-ID')}</Text>
